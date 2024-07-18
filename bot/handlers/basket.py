@@ -3,7 +3,7 @@ import time
 from aiogram import Router,F
 from aiogram.types import CallbackQuery
 
-from bot.keyboards import basket_menu, form_basket_delete_keyboard
+from bot.keyboards import basket_menu, form_basket_delete_keyboard,main_menu
 from database.orm import get_basket,delete_product_from_basket,buy_products,check_products
 
 basket_router = Router()
@@ -41,7 +41,7 @@ async def buy(callback: CallbackQuery):
         if check_products(user_id=callback.from_user.id):
             buy_products(user_id=callback.from_user.id)
             time.sleep(3)
-            await callback.message.edit_text('Спасибо за покупку!', reply_markup=basket_menu)
+            await callback.message.edit_text('Спасибо за покупку!', reply_markup=main_menu)
     except Exception as e:
         await callback.answer(e)
 

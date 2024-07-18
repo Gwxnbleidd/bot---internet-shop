@@ -108,6 +108,8 @@ def buy_products(user_id: int):
             response = update(ProductTable).where(ProductTable.id == product_id)
             response = response.values(quantity=ProductTable.quantity - 1)
             session.execute(response)
+        
+        session.execute(delete(BasketTable).filter_by(user_id=user_id))
 
         session.commit()
 
