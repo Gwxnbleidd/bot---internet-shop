@@ -31,7 +31,7 @@ purchases_menu = InlineKeyboardMarkup(inline_keyboard=[
 def form_keyboard_purchasing_cartridges(cartridges):
     # cartridges = ['Перый картридж', 'Второй картридж', 'Третий картридж']
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_cartridges_{id}')] 
-                for id,name,_,_ in cartridges]
+                for id,_,name,_,quantity,_,_ in cartridges if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню покупок', callback_data='back_purchases')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
@@ -58,34 +58,34 @@ purchases_liquids_alcohol_strength_lungs_menu = InlineKeyboardMarkup(inline_keyb
 def form_strong_cold_keyboard(alco):
     #alco = ['Водка мятная', 'Водка со льдом']
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,quantity in alco if quantity > 0]
+                for id,_,name,_,quantity,_,_ in alco if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_strong_not_cold_keyboard(alco):
     # alco = get_strong_not_cold_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,quantity in alco if quantity > 0]
+                for id,_,name,_,quantity,_,_ in alco if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_lungs_cold_keyboard(alco):
     # alco = get_lungs_cold_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,quantity in alco if quantity > 0]
+                for id,_,name,_,quantity,_,_ in alco if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_lungs_not_cold_keyboard(alco):
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,quantity in alco if quantity > 0]
+                for id,_,name,_,quantity,_,_ in alco if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_all_alco_keyboard(alco):
     # alco = get_all_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,quantity in alco if quantity > 0]
+                for id,_,name,_,quantity,_,_ in alco if quantity > 0]
     keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
@@ -96,8 +96,9 @@ basket_menu =  InlineKeyboardMarkup(inline_keyboard=[
                                  ])
 
 def form_basket_delete_keyboard(user_id: int):
-    basket_list = get_basket(user_id)
+    basket_list = get_basket(user_id=user_id)
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'basket_delete_{id}')] 
-                for id,_,name,_,_ in basket_list]
+                for id,_,_,name,_,_ in basket_list]
     keyboard.append([InlineKeyboardButton(text='Готово', callback_data='basket')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+

@@ -25,7 +25,7 @@ async def print_purchases(callback: CallbackQuery):
 async def print_purchases(callback: CallbackQuery):
     alco = get_liquid(strength=True,cold=True)
     info = 'Алкоголь:\n'
-    for _,name,_,_,price,quantity in alco:
+    for _,_,name,price,quantity,_,_ in alco:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -36,7 +36,7 @@ async def print_purchases(callback: CallbackQuery):
 async def print_purchases(callback: CallbackQuery):
     alco = get_liquid(strength=True,cold=False)
     info = 'Алкоголь:\n'
-    for _,name,_,_,price,quantity in alco:
+    for _,_,name,price,quantity,_,_ in alco:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -53,7 +53,7 @@ async def print_purchases(callback: CallbackQuery):
 async def print_purchases(callback: CallbackQuery):
     alco = get_liquid(strength=False,cold=True)
     info = 'Алкоголь:\n'
-    for _,name,_,_,price,quantity in alco:
+    for _,_,name,price,quantity,_,_ in alco:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -64,7 +64,7 @@ async def print_purchases(callback: CallbackQuery):
 async def print_purchases(callback: CallbackQuery):
     alco = get_liquid(strength=False,cold=False)
     info = 'Алкоголь:\n'
-    for _,name,_,_,price,quantity in alco:
+    for _,_,name,price,quantity,_,_ in alco:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -76,7 +76,7 @@ async def print_purchases(callback: CallbackQuery):
 async def print_purchases(callback: CallbackQuery):
     alco = get_liquid()
     info = 'Алкоголь:\n'
-    for _,name,_,_,price,quantity in alco:
+    for _,_,name,price,quantity,_,_ in alco:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -88,7 +88,8 @@ async def add_in_basket(callback: CallbackQuery):
     id = int(callback.data.split('_')[-1])
     try:
         id,name,price,quantity = get_liquid(id)
-        add_product_in_basket(callback.from_user.id,name,price,quantity)
+        add_product_in_basket(user_id=callback.from_user.id,product_id=id,product_name=name,
+                              product_price=price,product_quantity=quantity)
         await callback.answer(f'Продукт {name} добавлен в корзину')
     except Exception as e:
         await callback.answer(f'Вы не авторизованы, введите /start')

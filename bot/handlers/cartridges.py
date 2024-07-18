@@ -13,7 +13,7 @@ cartridges_router = Router()
 async def print_purchases(callback: CallbackQuery):
     cartridges = get_cartridges()
     info = 'Картриджи:\n'
-    for id, name, price, quantity in cartridges:
+    for id,type_id, name, price, quantity,_,_ in cartridges:
         if quantity == 0:
             continue
         info += f'{name}\nЦена: {price}\nКоличество: {quantity}\n\n'
@@ -25,7 +25,7 @@ async def add_in_basket(callback: CallbackQuery):
     id = int(callback.data.split('_')[-1])
     try:
         id,name,price,quantity = get_cartridges(id)
-        add_product_in_basket(callback.from_user.id,name,price,quantity)
+        add_product_in_basket(user_id=callback.from_user.id,product_id=id,product_name=name,product_price=price,product_quantity=quantity)
         await callback.answer(f'Продукт {name} добавлен в корзину')
     except Exception as e:
-        await callback.answer(f'Вы не авторизованы, введите /start')
+        await callback.answer(f'Вы не авторизованы, введите /start {e}')
