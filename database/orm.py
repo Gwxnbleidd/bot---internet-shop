@@ -1,9 +1,6 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from enum import Enum
 
-import sys
-import os
-sys.path.append(os.pardir)
 from database.engine import engine,Base, session_factory
 from database.models import UsersTable, CartridgesTable, LiquidsTable, BasketTable
 
@@ -33,13 +30,16 @@ def get_cartridges(id: int = None):
     with session_factory() as session:
         if id:
             res = session.get(CartridgesTable, id)
-            return res
+            return [res.id,res.name,res.price,res.quantity]
         else:
             res = session.execute(select('*').select_from(CartridgesTable))
             return res.fetchall()
 
-def get_liquid(strength: bool| None = None, cold: bool| None = None):
+def get_liquid(id: int = None,strength: bool| None = None, cold: bool| None = None):
     with session_factory() as session:
+        if id:
+            res = session.get(LiquidsTable,id)
+            return [res.id, res.name, res.price, res.quantity]
         response = select('*').select_from(LiquidsTable)
         if not (strength is None):
             if strength:
@@ -53,4 +53,25 @@ def get_liquid(strength: bool| None = None, cold: bool| None = None):
                 response = response.filter_by(cold = False)
         res = session.execute(response)
         return res.fetchall()
-#def add_product_in_basket()
+
+def add_product_in_basket(user_id: int, product_name: str, product_price: float, product_quantity: str):
+    with session_factory() as session:
+        session.add(BasketTable(user_id=user_id, product_name=product_name, product_price=product_price,
+                                 product_quantity=product_quantity))
+        session.commit()
+    
+def get_basket(user_id: int, id: int = None):
+    with session_factory() as session:
+        if id:
+            res = session.get(BasketTable,id)
+            return [res.id, res.name, res.price, res.quantity]
+        response = select('*').select_from(BasketTable).filter_by(user_id = user_id)
+        res = session.execute(response)
+        if res:
+            return res.fetchall()
+        return None
+
+def delete_product_from_basket(id: int):
+    with session_factory() as session:
+        session.execute(delete(BasketTable).filter_by(id=id))
+        session.commit()

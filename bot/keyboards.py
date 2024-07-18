@@ -1,6 +1,5 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
-
-basket = []
+from database.orm import get_basket
 
 number_button = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
                                keyboard=[
@@ -56,9 +55,6 @@ purchases_liquids_alcohol_strength_lungs_menu = InlineKeyboardMarkup(inline_keyb
                                  [InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')]
                                  ])
 
-# Нужен не enumerate а просто доставать id
-# будет просто список алкоголя
-
 def form_strong_cold_keyboard(alco):
     #alco = ['Водка мятная', 'Водка со льдом']
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
@@ -99,11 +95,9 @@ basket_menu =  InlineKeyboardMarkup(inline_keyboard=[
                                  [InlineKeyboardButton(text='В главное меню', callback_data='back')]
                                  ])
 
-def form_basket_delete_keyboard(basket_list = None):
-    #if not basket_list:
-        #basket_list = get_basket_from_db()
-    basket_list = ['Пиво', 'Водка', 'Первый картридж']
-    keyboard = [[InlineKeyboardButton(text=name, callback_data=f'delete_basket_{id}')] 
-                for id,name in enumerate(basket_list)]
+def form_basket_delete_keyboard(user_id: int):
+    basket_list = get_basket(user_id)
+    keyboard = [[InlineKeyboardButton(text=name, callback_data=f'basket_delete_{id}')] 
+                for id,_,name,_,_ in basket_list]
     keyboard.append([InlineKeyboardButton(text='Готово', callback_data='basket')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
