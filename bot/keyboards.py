@@ -24,7 +24,7 @@ back_button = InlineKeyboardMarkup(inline_keyboard=[
 
 purchases_menu = InlineKeyboardMarkup(inline_keyboard=[
                                  [InlineKeyboardButton(text='Картриджи', callback_data='purchases_cartridges')],
-                                 [InlineKeyboardButton(text='Жидкости', callback_data='purchases_liquids')],
+                                 [InlineKeyboardButton(text='Алкоголь', callback_data='purchases_liquids')],
                                  [InlineKeyboardButton(text='В главное меню', callback_data='back')]
                                  ])
 
@@ -37,56 +37,56 @@ def form_keyboard_purchasing_cartridges(cartridges):
 
 
 purchases_liquids_alcohol_strength_menu = InlineKeyboardMarkup(inline_keyboard=[
-                                 [InlineKeyboardButton(text='Крепкие', callback_data='purchases_liquids_strong')],
-                                 [InlineKeyboardButton(text='Легкие', callback_data='purchases_liquids_lungs')],
-                                 [InlineKeyboardButton(text='Все', callback_data='purchases_liquids_all')],
+                                 [InlineKeyboardButton(text='Крепкий', callback_data='purchases_liquids_strong')],
+                                 [InlineKeyboardButton(text='Легкий', callback_data='purchases_liquids_lungs')],
+                                 [InlineKeyboardButton(text='Весь', callback_data='purchases_liquids_all')],
                                  [InlineKeyboardButton(text='В меню покупок', callback_data='back_purchases')]
                                  ])
 
 purchases_liquids_alcohol_strength_strong_menu = InlineKeyboardMarkup(inline_keyboard=[
-                                 [InlineKeyboardButton(text='C холодком', callback_data='purchases_liquids_strong_cold')],
-                                 [InlineKeyboardButton(text='Без холодка', callback_data='purchases_liquids_strong_not_cold')],
-                                 [InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')]
+                                 [InlineKeyboardButton(text='Освежающий', callback_data='purchases_liquids_strong_cold')],
+                                 [InlineKeyboardButton(text='Обычный', callback_data='purchases_liquids_strong_not_cold')],
+                                 [InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')]
                                  ])
 
 purchases_liquids_alcohol_strength_lungs_menu = InlineKeyboardMarkup(inline_keyboard=[
-                                 [InlineKeyboardButton(text='C холодком', callback_data='purchases_liquids_lungs_cold')],
-                                 [InlineKeyboardButton(text='Без холодка', callback_data='purchases_liquids_lungs_not_cold')],
-                                 [InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')]
+                                 [InlineKeyboardButton(text='Освежающий', callback_data='purchases_liquids_lungs_cold')],
+                                 [InlineKeyboardButton(text='Обычный', callback_data='purchases_liquids_lungs_not_cold')],
+                                 [InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')]
                                  ])
 
 def form_strong_cold_keyboard(alco):
     #alco = ['Водка мятная', 'Водка со льдом']
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,_ in alco]
-    keyboard.append([InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')])
+                for id,name,_,_,_,quantity in alco if quantity > 0]
+    keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_strong_not_cold_keyboard(alco):
     # alco = get_strong_not_cold_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,_ in alco]
-    keyboard.append([InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')])
+                for id,name,_,_,_,quantity in alco if quantity > 0]
+    keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_lungs_cold_keyboard(alco):
     # alco = get_lungs_cold_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,_ in alco]
-    keyboard.append([InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')])
+                for id,name,_,_,_,quantity in alco if quantity > 0]
+    keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_lungs_not_cold_keyboard(alco):
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,_ in alco]
-    keyboard.append([InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')])
+                for id,name,_,_,_,quantity in alco if quantity > 0]
+    keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def form_all_alco_keyboard(alco):
     # alco = get_all_alco()
     keyboard = [[InlineKeyboardButton(text=name, callback_data=f'purchases_liquid_{id}')] 
-                for id,name,_,_,_,_ in alco]
-    keyboard.append([InlineKeyboardButton(text='В меню жидкостей', callback_data='back_purchases_liquids')])
+                for id,name,_,_,_,quantity in alco if quantity > 0]
+    keyboard.append([InlineKeyboardButton(text='В меню алкоголя', callback_data='back_purchases_liquids')])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 basket_menu =  InlineKeyboardMarkup(inline_keyboard=[
